@@ -125,7 +125,6 @@ void Testbench::do_sobel() {
 
   word data;
   unsigned char mask[4];
-  //wait(5 * CLOCK_PERIOD, SC_NS);
   for (y = 0; y != height; ++y) {
     for (x = 0; x != width; ++x) {
       if(x == 0){
@@ -151,7 +150,7 @@ void Testbench::do_sobel() {
             mask[2] = 0xff;
             mask[3] = 0;
             initiator.write_to_socket(SOBEL_FILTER_R_ADDR, mask, data.uc, 4);
-            wait(1 * CLOCK_PERIOD, SC_NS);
+            wait(1, SC_NS);
           }
         }
       } else {
@@ -177,7 +176,7 @@ void Testbench::do_sobel() {
           mask[2] = 0xff;
           mask[3] = 0;
           initiator.write_to_socket(SOBEL_FILTER_R_ADDR, mask, data.uc, 4);
-          wait(1 * CLOCK_PERIOD, SC_NS);
+          wait(1, SC_NS);
         }
       }
     }
@@ -191,8 +190,9 @@ void Testbench::do_sobel() {
         initiator.read_from_socket(SOBEL_FILTER_CHECK_ADDR, mask, data.uc, 4);
         output_num = data.sint;
         if(output_num>0) done=true;
+        wait(1, SC_NS);
       }
-      wait(10 * CLOCK_PERIOD, SC_NS);
+      wait(5, SC_NS);
       initiator.read_from_socket(SOBEL_FILTER_RESULT_ADDR, mask, data.uc, 4);
       total = data.sint;
       //debug
