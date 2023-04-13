@@ -16,6 +16,9 @@ struct timeval start_time, end_time;
 
 // int main(int argc, char *argv[])
 int sc_main(int argc, char **argv) {
+  time_t begin,end;
+  time(&begin);
+  
   if ((argc < 3) || (argc > 4)) {
     cout << "No arguments for the executable : " << argv[0] << endl;
     cout << "Usage : >" << argv[0] << " in_image_file_name out_image_file_name"
@@ -35,6 +38,10 @@ int sc_main(int argc, char **argv) {
   std::cout << "Simulated time == " << sc_core::sc_time_stamp() << std::endl;
   tb.write_bmp(argv[2]);
   std::cout << "read count = " << bus.totalReads << " & write count" << bus.totalWrites << endl;
+  
+  time(&end);
+  time_t elapsed = end - begin;
+  std::cout << "execution time == " << elapsed << std::endl;
 
   return 0;
 }
